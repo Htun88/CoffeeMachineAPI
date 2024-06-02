@@ -9,7 +9,7 @@ namespace CoffeeMachine.Application.Interfaces
 {
     public interface ICoffeeService
     {
-        Coffee BrewCoffee();
+        Task<Coffee> BrewCoffeeAsync();
         bool IsAprilFoolsDay();
         bool IsOutOfCoffee();
     }

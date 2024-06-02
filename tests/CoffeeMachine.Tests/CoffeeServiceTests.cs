@@ -1,6 +1,7 @@
 using CoffeeMachine.Application.Interfaces;
 using CoffeeMachine.Application.Services;
 using Moq;
+using System.Net.Http;
 
 namespace CoffeeMachine.Tests;
 
@@ -8,19 +9,22 @@ public class CoffeeServiceTests
 {
     private readonly CoffeeService _coffeeService;
     private readonly Mock<IDateTimeProvider> _dateTimeProviderMock;
+    private readonly Mock<IWeatherService> _weatherService;
+
 
     public CoffeeServiceTests()
     {
         _dateTimeProviderMock = new Mock<IDateTimeProvider>();
-        _coffeeService = new CoffeeService(_dateTimeProviderMock.Object);
+        _weatherService = new Mock<IWeatherService>();  
+        _coffeeService = new CoffeeService(_dateTimeProviderMock.Object, _weatherService.Object);
     }
 
     [Fact]
-    public void BrewCoffee_ShouldReturnCoffee()
+    public async Task BrewCoffee_ShouldReturnCoffeeAsync()
     {
         _dateTimeProviderMock.Setup(dp => dp.Now).Returns(DateTime.Now);
 
-        var coffee = _coffeeService.BrewCoffee();
+        var coffee = await _coffeeService.BrewCoffeeAsync();
         Assert.NotNull(coffee);
         Assert.Equal("Your piping hot coffee is ready", coffee.Message);
         Assert.True(coffee.Prepared <= DateTime.Now);

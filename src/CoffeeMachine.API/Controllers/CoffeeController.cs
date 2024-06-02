@@ -15,7 +15,7 @@ namespace CoffeeMachine.API.Controllers
         }
 
         [HttpGet("brew-coffee")]
-        public IActionResult BrewCoffee()
+        public async Task<IActionResult> BrewCoffee()
         {
             if (_coffeeService.IsAprilFoolsDay())
             {
@@ -27,7 +27,7 @@ namespace CoffeeMachine.API.Controllers
                 return StatusCode(503);
             }
 
-            var coffee = _coffeeService.BrewCoffee();
+            var coffee = await _coffeeService.BrewCoffeeAsync();
             return Ok(new
             {
                 message = coffee.Message,

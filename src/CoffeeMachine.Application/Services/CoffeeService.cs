@@ -11,21 +11,26 @@ namespace CoffeeMachine.Application.Services
     public class CoffeeService : ICoffeeService
     {
         private readonly IDateTimeProvider _dateTimeProvider;
+        private readonly IWeatherService _weatherService;
         private static int _callCount = 0;
         private const int OutOfCoffeeThreshold = 5;
 
-        public CoffeeService(IDateTimeProvider dateTimeProvider)
+        public CoffeeService(IDateTimeProvider dateTimeProvider, IWeatherService weatherService)
         {
             _dateTimeProvider = dateTimeProvider;
+            _weatherService = weatherService;
         }
 
-        public Coffee BrewCoffee()
+        public async Task<Coffee> BrewCoffeeAsync()
         {
+            var temperature = await _weatherService.GetCurrentTemperatureAsync();
+            var message = temperature > 30 ? "Your refreshing iced coffee is ready" : "Your piping hot coffee is ready";
             return new Coffee
             {
-                Message = "Your piping hot coffee is ready",
+                Message = message,
                 Prepared = _dateTimeProvider.Now
-             };
+            };
+    
         }
 
         public bool IsAprilFoolsDay()

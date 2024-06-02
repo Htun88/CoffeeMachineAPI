@@ -16,6 +16,7 @@ namespace CoffeeMachine.API
             services.AddControllers();
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
             services.AddScoped<ICoffeeService, CoffeeService>();
+            services.AddHttpClient<IWeatherService, WeatherService>();
 
             // Add Swagger services
             services.AddSwaggerGen(c =>
