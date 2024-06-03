@@ -53,7 +53,7 @@ The API documentation is available using Swagger UI:
 Navigate to http://localhost:0000/swagger.
 
 ### Contributing
-Contributions are welcome! Please open an issue or submit a pull request with any improvements or fixes.
+
 
 ### License
 The app has no license
